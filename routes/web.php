@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\CarCategory\CarCategoryController;
 use App\Http\Controllers\Admin\CarDetails\CarDetailsController;
-use App\Http\Controllers\Common\Admin\DashboardController;
+use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
