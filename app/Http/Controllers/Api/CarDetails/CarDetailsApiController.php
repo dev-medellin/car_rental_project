@@ -27,13 +27,7 @@ class CarDetailsApiController extends Controller
         ]);
     }
 
-    /**
-     * Store a new car detail.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function storeCarDetails(StoreCarDetailRequest $request)
+    public function storeCarDetails($request)
     {
         try {
             $carDetail = $this->carDetailsService->insertCarDetail($request);
@@ -46,11 +40,11 @@ class CarDetailsApiController extends Controller
         }
     }
 
-    public function updateCarDetailsBySlug(UpdateCarDetailsRequest $request,$slug){
+    public function updateCarDetailsBySlug($request){
         try {
-            $check_exist = $this->carDetailsService->showCarDetail($slug);
+            $check_exist = $this->carDetailsService->showCarDetail($request['slug']);
             if( !is_null($check_exist) ){
-                $carDetail = $this->carDetailsService->updateCarDetail($request,$slug);
+                $carDetail = $this->carDetailsService->updateCarDetail($request);
                 return response()->json([
                     'success' => true,
                     'data' => $carDetail
@@ -123,4 +117,5 @@ class CarDetailsApiController extends Controller
             throw $th;
         }
     }
+
 }

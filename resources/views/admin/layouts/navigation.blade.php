@@ -88,7 +88,7 @@
             <li class="nav-heading "> <span>Main Navigation&nbsp;&nbsp;&nbsp;&nbsp;------</span></li>
             <li class="active"><a href="{{ url('admin/dashboard') }}" class="material-ripple"><i class="material-icons">home</i> Dashboard</a></li>
             <li class=""><a href="{{ url('admin/car-category/list') }}" class="material-ripple"><i class="material-icons">assignment_ind</i>Category List</a></li>
-            <li class=""><a href="{{ url('admin/car-rental/list') }}" class="material-ripple"><i class="material-icons">directions_car</i>Car List</a></li>
+            <li class=""><a href="{{ route('car_details.list-display') }}" class="material-ripple"><i class="material-icons">directions_car</i>Car List</a></li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

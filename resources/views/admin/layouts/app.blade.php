@@ -18,6 +18,7 @@
             }
         });
     </script>
+    @stack('styles')
 </head>
 <body>
     <div id="wrapper" class="wrapper animsition">

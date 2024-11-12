@@ -17,18 +17,21 @@
         </div>
         <div class="header-title">
             <h1>Car Rental List</h1>
-            {{-- {{ dd(session()->all()) }} --}}
-            {{-- <small>Advanced interaction controls in any HTML table. <a href="https://datatables.net/examples/styling/bootstrap.html" target="_blank">https://datatables.net/examples/styling/bootstrap.html</a></small> --}}
         </div>
     </div> <!-- /. Content Header (Page header) -->
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-bd">
                 <div class="panel-heading">
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {!! session('error') !!}
+                        </div>
+                    @endif
                     <div>
                         <!-- Add Category Button -->
-                        <a href="javascript:void(0);" data-toggle="modal" data-target="#modal-md" class="btn btn-primary" style="float: right; margin-bottom: 10px; margin-right:10px">
-                            Add Category
+                        <a href="{{ route('car_details.display') }}" class="btn btn-primary" style="float: right; margin-bottom: 10px; margin-right:10px">
+                            Add Car Rental
                         </a>
                     </div>
                     <div style="clear: both;"></div>
@@ -44,7 +47,7 @@
                                     <th>Car Description</th>
                                     <th>Car Price</th>
                                     <th>Created Date</th>
-                                    <th>Status</th>
+                                    <th>Availability Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -54,13 +57,19 @@
                                         <td>{{ $category['id'] }}</td>
                                         <td>{{ $category['car_name'] }}</td>
                                         <td>{{ $category['category_name'] }}</td>
-                                        <td>{{ $category['car_description'] }}</td>
-                                        <td>{{ $category['car_price'] }}</td>
+                                        <td>{{ $category['description'] }}</td>
+                                        <td>{{ $category['rental_price_per_day'] }}</td>
                                         <td>{{ date('F d, Y', strtotime($category['created_at'])) }}</td>
-                                        <td>{{ $category['status'] == 1 ? "Available" : "Rented" }}</td>
+                                        @if($category['availability_status'] == 'booked')
+                                            <td>{!! "<span class='bg-info badge avatar-text'>BOOKED</span>" !!}</td>
+                                        @elseif($category['availability_status'] == 'under_maintenance')
+                                            <td>{!! "<span class='bg-red badge avatar-text'>UNDER MAINTENANCE</span>" !!}</td>
+                                        @elseif($category['availability_status'] == 'available')
+                                            <td>{!! "<span class='bg-green badge avatar-text'>AVAILABLE</span>" !!}</td>
+                                        @endif
                                         <td>
-                                            <a hre="javascript:void(0);" class="btn btn-info btn-sm edit-btn" data-id={{ $category['id'] }} data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                            <a hre="javascript:void(0);" class="btn btn-danger btn-sm delete-btn" data-id={{ $category['id'] }} data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            <a href="{{ route('car_details.edit.display', ['slug' => $category['car_name_slug']]) }}" class="btn btn-info btn-sm" title="Update">Edit</a>
+                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm delete-btn" data-slug={{ $category['car_name_slug'] }} data-toggle="tooltip" data-placement="right" title="Delete ">Remove</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,7 +87,7 @@
 <script src="{{ asset('assets/plugins/modals/classie.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/plugins/modals/modalEffects.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}" type="text/javascript"></script>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
 
         "use strict"; // Start of use strict
@@ -102,9 +111,9 @@
             // Show a confirmation alert
             if (confirm('Are you sure you want to delete this item?')) {
                 // If confirmed, trigger the delete action
-                let itemId = $(this).data('id'); // Get the ID of the item to delete
-                var listEditRoute = "{{ route('car-details.destroy', ':id') }}";
-                let deleteUrl = listEditRoute.replace(':id', itemId);
+                let slug = $(this).data('slug'); // Get the ID of the item to delete
+                var listEditRoute = "{{ route('car_details.destroy', ':slug') }}";
+                let deleteUrl = listEditRoute.replace(':slug', slug);
 
                 $.ajax({
                     url: deleteUrl, // Your delete URL
@@ -121,7 +130,6 @@
                         location.reload(); // Reload the page
                     },
                     error: function(xhr) {
-                        console.error("Error deleting item:", xhr);
                         alert('Failed to delete the item.');
                     }
                 });

@@ -5,64 +5,55 @@ namespace App\Http\Services\CarDetails;
 use App\Models\CarDetailModel;
 use App\Http\Requests\CarDetails\StoreCarDetailRequest;
 use App\Http\Requests\CarDetails\UpdateCarDetailsRequest;
+use App\Models\CarModel;
 use Illuminate\Support\Str;
 
 class CarDetailsService
 {
 
     public function selectCar(){
-       return CarDetailModel::select('car_details.*','car_category.category_name as category_name')
-        ->leftJoin('car_category', 'car_details.category_id', '=', 'car_category.id')
-        ->where('car_details.status','1')->get();
+       return CarModel::select('cars.*','car_category.category_name as category_name')
+        ->leftJoin('car_category', 'cars.car_category', '=', 'car_category.id')
+        ->where('cars.status','1')->get();
     }
-    public function insertCarDetail(StoreCarDetailRequest $request): CarDetailModel
+    public function insertCarDetail($request): CarModel
     {
-        $validated = $request->validated();
-        if (isset($validated['car_additional']) && is_array($validated['car_additional'])) {
-            $validated['car_additional'] = json_encode($validated['car_additional']);
+        if (isset($request['car_name'])) {
+            $request['car_name_slug'] = Str::slug($request['car_name']);
         }
-        if (isset($validated['car_name'])) {
-            $validated['car_name_slug'] = Str::slug($validated['car_name']);
-        }
-        return CarDetailModel::create($validated);
+        return CarModel::create($request->all());
     }
 
-    public function updateCarDetail(UpdateCarDetailsRequest $request, $slug): CarDetailModel
+    public function updateCarDetail($request)
     {
-        $validated = $request->validated();
 
-        if (isset($validated['car_additional']) && is_array($validated['car_additional'])) {
-            $validated['car_additional'] = json_encode($validated['car_additional']);
+        if (isset($request['car_name'])) {
+            $request['car_name_slug'] = Str::slug($request['car_name']);
         }
-
-        if (isset($validated['car_name'])) {
-            $validated['car_name_slug'] = Str::slug($validated['car_name']);
-        }
-
         // Update the record
-        CarDetailModel::where('car_name_slug', $slug)
-        ->where('status','1')
-        ->update($validated);
+        CarModel::where('car_name_slug', $request['slug'])
+        ->where('status', '1')
+        ->update($request->except('_token', 'slug','form_status'));
 
         // Retrieve and return the updated model
-        return CarDetailModel::where('car_name_slug', $validated['car_name_slug'])
+        return CarModel::where('car_name_slug', $request['car_name_slug'])
         ->where('status','1')
         ->first();
     }
 
     public function showCarDetail($slug){
-        return CarDetailModel::where('car_name_slug', $slug)->where('status','1')->first();
+        return CarModel::where('car_name_slug', $slug)->where('status','1')->first();
     }
 
     public function removeCarDetail($slug){
-        $carDetail = CarDetailModel::where('car_name_slug', $slug)->firstOrFail();
+        $carDetail = CarModel::where('car_name_slug', $slug)->firstOrFail();
         $carDetail->delete();
     }
 
-    public function updateDeleteAtCarDetail($slug): CarDetailModel
+    public function updateDeleteAtCarDetail($slug): CarModel
     {
         // Retrieve the soft-deleted record
-        $carDetail = CarDetailModel::onlyTrashed()->where('car_name_slug', $slug)->first();
+        $carDetail = CarModel::onlyTrashed()->where('car_name_slug', $slug)->first();
 
         // Check if the record exists
         if (!$carDetail) {

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*
  *
- *   
+ *
     AdminPage - Responsive Admin Theme
  *   version 1.0
  *
@@ -2190,7 +2190,7 @@ table.text-center th {
 }
 
 .icon-addon.addon-md .glyphicon,
-.icon-addon .glyphicon, 
+.icon-addon .glyphicon,
 .icon-addon.addon-md .fa,
 .icon-addon .fa,
 .icon-addon.addon-md [class*="ti-"],
@@ -2207,7 +2207,7 @@ table.text-center th {
 }
 
 /*.icon-addon.input-left-icon.addon-md .glyphicon,
-.icon-addon.input-left-icon .glyphicon, 
+.icon-addon.input-left-icon .glyphicon,
 .icon-addon.input-left-icon.addon-md .fa,
 .icon-addon.input-left-icon .fa,
 .icon-addon.input-left-icon.addon-md [class*="ti-"],
@@ -2219,7 +2219,7 @@ table.text-center th {
 }*/
 
 .icon-addon.input-right-icon.addon-md .glyphicon,
-.icon-addon.input-right-icon .glyphicon, 
+.icon-addon.input-right-icon .glyphicon,
 .icon-addon.input-right-icon.addon-md .fa,
 .icon-addon.input-right-icon .fa,
 .icon-addon.input-right-icon.addon-md [class*="ti-"],
@@ -2269,7 +2269,7 @@ table.text-center th {
     font-weight: normal;
 }
 
-.icon-addon.addon-md .fa, 
+.icon-addon.addon-md .fa,
 .icon-addon.addon-md .glyphicon,
 .icon-addon.addon-md [class*="ti-"],
 .icon-addon.addon-md [class*="pe-"] {
@@ -2421,15 +2421,15 @@ table.text-center th {
     border: 1px solid #e4e5e7;
     border-radius: 3px;
 }
-.select2-container--default.select2-container--focus .select2-selection--multiple, 
+.select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default.select2-container--focus .select2-selection--single,
-.select2-container--default.select2-container--open .select2-selection--multiple, 
+.select2-container--default.select2-container--open .select2-selection--multiple,
 .select2-container--default.select2-container--open .select2-selection--single {
     box-shadow: 0 0 2px #7799D0;
     border-color: #7799D0;
 }
-.select2-container--default .select2-selection--single:focus, 
-.select2-container--default .select2-selection--single:hover, 
+.select2-container--default .select2-selection--single:focus,
+.select2-container--default .select2-selection--single:hover,
 .select2-container--default .select2-selection--multiple:focus,
 .select2-container--default .select2-selection--multiple:hover {
     box-shadow: 0 0 2px #7799D0;
@@ -2527,7 +2527,7 @@ table.text-center th {
 .f1-step {
     position: relative;
     float: left;
-    width: 33.333333%;
+    width: 16%;
     padding: 0 5px;
 }
 
@@ -3371,8 +3371,8 @@ pre .arg {
 }
 .btn-default.active.focus, .btn-default.active:focus,
 .btn-default.active:hover, .btn-default:active.focus,
-.btn-default:active:focus, .btn-default:active:hover, 
-.open>.dropdown-toggle.btn-default.focus, 
+.btn-default:active:focus, .btn-default:active:hover,
+.open>.dropdown-toggle.btn-default.focus,
 .open>.dropdown-toggle.btn-default:focus,
 .open>.dropdown-toggle.btn-default:hover {
     color: #333;
